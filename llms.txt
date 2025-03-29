@@ -1,0 +1,104 @@
+API de La Liga - Guía de Uso
+
+Esta API permite gestionar partidos de La Liga, incluyendo la creación, actualización, eliminación y seguimiento de eventos durante los partidos.
+
+Endpoints Disponibles:
+
+1. GET /api/matches
+   - Obtiene todos los partidos
+   - No requiere parámetros
+   - Retorna un array de partidos
+
+2. GET /api/matches/:id
+   - Obtiene un partido específico
+   - Parámetros:
+     - id: ID del partido
+   - Retorna los detalles del partido
+
+3. POST /api/matches
+   - Crea un nuevo partido
+   - Body (JSON):
+     {
+       "homeTeam": "string",
+       "awayTeam": "string",
+       "matchDate": "YYYY-MM-DD"
+     }
+   - Retorna el partido creado
+
+4. PUT /api/matches/:id
+   - Actualiza un partido existente
+   - Parámetros:
+     - id: ID del partido
+   - Body (JSON):
+     {
+       "homeTeam": "string",
+       "awayTeam": "string",
+       "matchDate": "YYYY-MM-DD"
+     }
+   - Retorna el partido actualizado
+
+5. DELETE /api/matches/:id
+   - Elimina un partido
+   - Parámetros:
+     - id: ID del partido
+   - Retorna mensaje de confirmación
+
+6. PATCH /api/matches/:id/goals
+   - Registra un gol en un partido
+   - Parámetros:
+     - id: ID del partido
+   - Body (JSON):
+     {
+       "team": "home" | "away"
+     }
+   - Retorna el partido actualizado
+
+7. PATCH /api/matches/:id/yellowcards
+   - Registra una tarjeta amarilla
+   - Parámetros:
+     - id: ID del partido
+   - No requiere body
+   - Retorna el partido actualizado
+
+8. PATCH /api/matches/:id/redcards
+   - Registra una tarjeta roja
+   - Parámetros:
+     - id: ID del partido
+   - No requiere body
+   - Retorna el partido actualizado
+
+9. PATCH /api/matches/:id/extratime
+   - Establece el tiempo extra del partido
+   - Parámetros:
+     - id: ID del partido
+   - Body (JSON):
+     {
+       "minutes": number (1-30)
+     }
+   - Retorna el partido actualizado
+
+Ejemplos de Uso:
+
+1. Crear un nuevo partido:
+   curl -X POST http://localhost:8086/api/matches \
+   -H "Content-Type: application/json" \
+   -d '{"homeTeam": "Real Madrid", "awayTeam": "Barcelona", "matchDate": "2024-03-20"}'
+
+2. Registrar un gol:
+   curl -X PATCH http://localhost:8086/api/matches/1/goals \
+   -H "Content-Type: application/json" \
+   -d '{"team": "home"}'
+
+3. Registrar una tarjeta amarilla:
+   curl -X PATCH http://localhost:8086/api/matches/1/yellowcards
+
+4. Establecer tiempo extra:
+   curl -X PATCH http://localhost:8086/api/matches/1/extratime \
+   -H "Content-Type: application/json" \
+   -d '{"minutes": 15}'
+
+Notas:
+- Todos los endpoints soportan CORS
+- Las fechas deben estar en formato YYYY-MM-DD
+- El tiempo extra debe estar entre 1 y 30 minutos
+- Los IDs de partido son números enteros positivos 

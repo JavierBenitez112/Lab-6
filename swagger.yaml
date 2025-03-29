@@ -1,0 +1,218 @@
+openapi: 3.0.0
+info:
+  title: La Liga API
+  version: 1.0.0
+  description: API para gestionar partidos de La Liga
+
+servers:
+  - url: http://localhost:8080/api
+    description: Servidor de desarrollo
+
+components:
+  schemas:
+    Match:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        homeTeam:
+          type: string
+        awayTeam:
+          type: string
+        matchDate:
+          type: string
+          format: date
+        homeGoals:
+          type: integer
+          default: 0
+        awayGoals:
+          type: integer
+          default: 0
+        yellowCards:
+          type: integer
+          default: 0
+        redCards:
+          type: integer
+          default: 0
+        extraTime:
+          type: integer
+          default: 0
+      required:
+        - homeTeam
+        - awayTeam
+        - matchDate
+
+paths:
+  /matches:
+    get:
+      summary: Obtener todos los partidos
+      responses:
+        '200':
+          description: Lista de partidos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Match'
+    
+    post:
+      summary: Crear un nuevo partido
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Match'
+      responses:
+        '201':
+          description: Partido creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Match'
+
+  /matches/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+    
+    get:
+      summary: Obtener un partido por ID
+      responses:
+        '200':
+          description: Detalles del partido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Match'
+        '404':
+          description: Partido no encontrado
+    
+    put:
+      summary: Actualizar un partido
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Match'
+      responses:
+        '200':
+          description: Partido actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Match'
+    
+    delete:
+      summary: Eliminar un partido
+      responses:
+        '200':
+          description: Partido eliminado
+
+  /matches/{id}/goals:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+    
+    patch:
+      summary: Registrar un gol
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                team:
+                  type: string
+                  enum: [home, away]
+              required:
+                - team
+      responses:
+        '200':
+          description: Gol registrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Match'
+
+  /matches/{id}/yellowcards:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+    
+    patch:
+      summary: Registrar una tarjeta amarilla
+      responses:
+        '200':
+          description: Tarjeta amarilla registrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Match'
+
+  /matches/{id}/redcards:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+    
+    patch:
+      summary: Registrar una tarjeta roja
+      responses:
+        '200':
+          description: Tarjeta roja registrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Match'
+
+  /matches/{id}/extratime:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+    
+    patch:
+      summary: Establecer tiempo extra
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                minutes:
+                  type: integer
+                  minimum: 1
+                  maximum: 30
+              required:
+                - minutes
+      responses:
+        '200':
+          description: Tiempo extra establecido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Match' 
