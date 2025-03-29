@@ -23,7 +23,7 @@ API REST para gestionar partidos de La Liga, desarrollada en Go con Gin y GORM.
 
 1. Clonar el repositorio:
 ```bash
-git clone https://github.com/tu-usuario/laliga-api.git
+git clone https://github.com/JavierBenitez112/Lab-6.git
 cd laliga-api
 ```
 
@@ -165,6 +165,6 @@ Este proyecto está licenciado bajo la Licencia MIT - ver el archivo [LICENSE](L
 
 ## Contacto
 
-Javier Benitez - [@ja](https://twitter.com/tutwitter) - email@example.com
+Javier Benitez - [@ja_viby](https://www.instagram.com/ja_viby/) - javibenn@gmail.com
 
-Link del Proyecto: [https://github.com/tu-usuario/laliga-api](https://github.com/tu-usuario/laliga-api) 
+Link del Proyecto: [https://github.com/JavierBenitez112/Lab-6.git](https://github.com/JavierBenitez112/Lab-6.git) 
